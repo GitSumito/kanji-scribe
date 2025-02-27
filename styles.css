@@ -1,92 +1,105 @@
 :root {
-    --primary-color: #6366f1;
-    --primary-hover: #4f46e5;
-    --danger-color: #ef4444;
-    --danger-hover: #dc2626;
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #475569;
+    --secondary-hover: #334155;
     --background-color: #f8fafc;
     --text-color: #1e293b;
+    --border-color: #e2e8f0;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--background-color);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    height: 100vh;
     margin: 0;
-    color: var(--text-color);
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 1rem;
     min-height: 100vh;
-    height: auto;
 }
 
 .container {
     background: white;
-    padding: 2rem;
-    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
     box-shadow: var(--shadow-lg);
     text-align: center;
     width: 100%;
-    max-width: 600px;
-    padding: 2rem 1rem;
+    max-width: 640px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 #kanjiInput {
-    font-size: 1.5rem;
-    padding: 1rem;
-    border: 2px solid #e0e6ed;
-    border-radius: 8px;
-    margin: 0 15px 15px 0;  /* 下部にも余白を追加 */
-    width: 120px;          /* 幅を広げる */
-    height: 80px;
+    font-size: 2rem;
+    padding: 1.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    margin: 0 0 1.5rem 0; /* 下部マージンを追加 */
+    width: 140px;
+    height: 100px;
     text-align: center;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: var(--background-color);
+}
+
+#kanjiInput::placeholder {
+    font-size: 1.5rem;
 }
 
 #kanjiInput:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem; /* ボタングループの下マージンを調整 */
+}
+
+#showButton, #clearButton {
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    color: white;
+    border: none;
 }
 
 #showButton {
     background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    font-size: 1.3rem;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-    min-width: 120px;
 }
 
 #showButton:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
 #clearButton {
-    background-color: var(--danger-color);
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    font-size: 1.3rem;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-    min-width: 120px;
-    margin-left: 10px;
+    background-color: var(--secondary-color);
 }
 
 #clearButton:hover {
-    background-color: var(--danger-hover);
-    transform: translateY(-1px);
+    background-color: var(--secondary-hover);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
@@ -110,22 +123,21 @@ svg {
 }
 
 .license-notice {
-    position: fixed;
-    bottom: 1rem;
-    left: 0;
-    right: 0;
+    position: static; /* fixed から static に変更 */
+    margin-top: 2rem; /* 上部にマージンを追加 */
     text-align: center;
     font-size: 0.8rem;
     color: #666;
     line-height: 1.4;
-    padding: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.9);
     padding: 1rem;
+    background-color: transparent; /* 背景色を透明に */
 }
 
 .speed-control {
-    margin: 1.5rem 0;
-    text-align: center;
+    background-color: var(--background-color);
+    padding: 0.8rem;  /* 1.5rem から 0.8rem に縮小 */
+    border-radius: 12px;
+    margin: 0.8rem 0;  /* 2rem から 0.8rem に縮小 */
 }
 
 .speed-control label {
@@ -136,31 +148,69 @@ svg {
 }
 
 #speedSlider {
-    width: 400px;
-    height: 4px;
-    background: #e0e6ed;
-    border-radius: 2px;
+    width: 100%;
+    max-width: 400px;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
     -webkit-appearance: none;
-    appearance: none;
 }
 
 #speedSlider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     background: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    -webkit-appearance: none;
     border-radius: 50%;
     cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-#speedSlider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
 }
 
 #speedSlider:focus {
     outline: none;
+}
+
+.share-buttons {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.share-button {
+    border: none;
+    border-radius: 12px;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.share-line {
+    background-color: #00B900;
+    color: white;  /* LINE共有ボタンのテキスト色も明示的に設定 */
+}
+
+.share-twitter {
+    background-color: #000000;
+    color: white;  /* Xで共有ボタンのテキスト色を白に設定 */
+}
+
+.share-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    opacity: 0.95;
+}
+
+.share-button img {
+    width: 20px;
+    height: 20px;
 }
 
 /* タブレット向けメディアクエリ */
@@ -195,6 +245,16 @@ svg {
         padding: 1.5rem 1rem;
     }
 
+    .input-group {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 0.5rem;
+    }
+
     #kanjiInput {
         width: 100px;
         height: 60px;
@@ -213,5 +273,123 @@ svg {
         margin-top: 10px;
         margin-left: 0;
     }
+
+    .share-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .share-button {
+        width: 200px;
+    }
+
+    .animation-controls {
+        flex-direction: row;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    #pauseButton, #refreshButton {
+        padding: 0.8rem 1.2rem; /* さらに小さく調整 */
+        font-size: 0.9rem;
+    }
+
+    .license-notice {
+        margin-top: 1.5rem;
+        padding: 0.8rem;
+    }
 }
+
+.animation-section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+}
+
+#refreshButton {
+	padding: 0.8rem 1.5rem; /* 1rem 2rem から 0.8rem 1.5rem に変更 */
+	border-radius: 12px;
+	font-size: 0.9rem; /* 1rem から 0.9rem に変更 */
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	min-width: 100px; /* 120px から 100px に変更 */
+	background-color: var(--primary-color);
+	color: white;
+	border: none;
+}
+
+#refreshButton:hover {
+	background-color: var(--primary-hover);
+	transform: translateY(-2px);
+	box-shadow: var(--shadow-md);
+}
+
+.animation-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#pauseButton {
+    padding: 0.8rem 1.5rem; /* 1rem 2rem から 0.8rem 1.5rem に変更 */
+    border-radius: 12px;
+    font-size: 0.9rem; /* 1rem から 0.9rem に変更 */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px; /* 120px から 100px に変更 */
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+}
+
+#pauseButton:hover {
+    background-color: var(--secondary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ヘッダー用スタイル（不要な場合は削除またはコメントアウト） */
+/*
+.app-header {
+	text-align: center;
+	margin-bottom: 2rem;
+	padding: 1rem;
+	background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+	border-radius: 12px;
+	box-shadow: var(--shadow-md);
+}
+
+.app-header h1 {
+	margin: 0.2rem 0;
+	font-size: 2.5rem;
+	color: var(--primary-color);
+	font-weight: 700;
+}
+
+.app-header p {
+	margin: 0;
+	font-size: 1.2rem;
+	color: var (--secondary-color);
+}
+*/
+
+#showButton:hover,
+#clearButton:hover,
+#refreshButton:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--shadow-md);
+}
+
+/* フィードバック領域のスタイルを削除 */
+/* #feedback {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    min-height: 1.5em;
+    text-align: center;
+} */
 

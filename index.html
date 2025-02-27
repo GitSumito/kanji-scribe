@@ -8,14 +8,32 @@
 </head>
 <body>
     <div class="container">
-        <input type="text" id="kanjiInput" maxlength="1" placeholder="漢字１文字">
-        <button id="showButton">表示</button>
-        <button id="clearButton">クリア</button>
+        <input type="text" id="kanjiInput" maxlength="1" placeholder="漢字1文字">
+        <div class="button-group">
+            <button id="showButton">表示</button>
+            <button id="clearButton">クリア</button>
+        </div>
         <div class="speed-control">
             <label for="speedSlider">表示速度: <span id="speedValue">標準</span></label>
             <input type="range" id="speedSlider" min="0.5" max="2.5" step="0.5" value="1.5">
         </div>
-        <div id="kanjiContainer"></div>
+        <div class="animation-section">
+            <div id="kanjiContainer"></div>
+            <div class="animation-controls">
+                <button id="pauseButton">一時停止</button>
+                <button id="refreshButton">再表示</button>
+            </div>
+        </div>
+        <div class="share-buttons">
+            <button class="share-button share-line" onclick="shareLine()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE">
+                LINEで共有
+            </button>
+            <button class="share-button share-twitter" onclick="shareTwitter()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/X_icon_2.svg" alt="X">
+                Xで共有
+            </button>
+        </div>
     </div>
     <div class="license-notice">
         この作品には、Ulrich Apel氏が作成したKanjiVGデータを使用しています。ライセンスはCC BY-SA 3.0です。
