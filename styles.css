@@ -421,29 +421,47 @@ svg {
     width: 100%;
     max-width: 500px;
     display: none;
-    /* 初期状態では非表示 */
 }
 
 .kanji-info {
     text-align: left;
 }
 
+.kanji-info-item {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
 .kanji-info-title {
     font-weight: bold;
     color: var(--primary-color);
-    margin-bottom: 0.25rem;
     font-size: 1.1rem;
+    -webkit-text-fill-color: var(--primary-color); /* Safari用 */
+    display: block;
 }
 
 .kanji-info-content {
-    margin-bottom: 1rem;
     line-height: 1.5;
     color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 @media (max-width: 480px) {
     .kanji-info-container {
         padding: 1rem;
         margin: 1.5rem auto;
+    }
+    
+    .kanji-info-item {
+        margin-bottom: 0.8rem;
+    }
+    
+    .kanji-info-title {
+        font-size: 1rem;
     }
 }
