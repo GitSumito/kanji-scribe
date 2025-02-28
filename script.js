@@ -35,11 +35,6 @@ speedSlider.addEventListener('input', function() {
     }
 });
 
-// feedback関連の関数を削除または空処理に変更
-function updateFeedback(message, isError = false) {
-    // 何もしない
-}
-
 document.getElementById('showButton').addEventListener('click', function() {
     const kanji = document.getElementById('kanjiInput').value.trim();
     if (kanji.length !== 1) {
@@ -139,8 +134,6 @@ function fetchKanjiInfo(kanji) {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            console.log('API Response parsed:', data);
-            
             const kanjiInfoContainer = document.getElementById('kanjiInfoContainer');
             const kanjiInfoElement = document.getElementById('kanjiInfo');
             
@@ -172,14 +165,13 @@ function fetchKanjiInfo(kanji) {
         })
         .catch(error => {
             console.error('Error fetching kanji info:', error);
-            // エラー時は非表示
             document.getElementById('kanjiInfoContainer').style.display = 'none';
         });
 }
 
 // 情報項目を追加する関数
 function appendInfoItem(parent, title, content) {
-    console.log(`Appending: ${title} - ${content}`); // デバッグログ追加
+    if (!content) return;
     
     const wrapper = document.createElement('div');
     wrapper.className = 'kanji-info-item';
@@ -215,13 +207,6 @@ function shareTwitter() {
     const text = "漢字の書き順アニメーションで勉強しよう！";
     const url = encodeURIComponent(window.location.href);
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`);
-}
-
-function showKanjiAnimation(kanji) {
-    const feedback = document.getElementById('feedback');
-    if (feedback) {
-        feedback.textContent = ''; // 「書き順アニメーション実行中...」のメッセージを削除
-    }
 }
 
 let isPaused = false;
