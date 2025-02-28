@@ -9,9 +9,14 @@ document.getElementById('kanjiInput').addEventListener('keypress', function(e) {
 document.getElementById('clearButton').addEventListener('click', function() {
     document.getElementById('kanjiInput').value = '';
     document.getElementById('kanjiContainer').innerHTML = '';
+    document.getElementById('kanjiInfoContainer').style.display = 'none';
     document.getElementById('kanjiInput').focus();
     isPaused = false;
     document.getElementById('pauseButton').textContent = '一時停止';
+    const kanjiInfoContainer = document.getElementById('kanjiInfoContainer');
+    if (kanjiInfoContainer) {
+        kanjiInfoContainer.style.display = 'none';
+    }
 });
 
 // スピードスライダーの処理を追加
@@ -40,6 +45,9 @@ document.getElementById('showButton').addEventListener('click', function() {
     if (kanji.length !== 1) {
         return;  // エラーメッセージを表示しない
     }
+    
+    // 漢字情報を取得
+    fetchKanjiInfo(kanji);
     
     // Unicode を取得してゼロ埋め (5桁の 16進数)
     const codePoint = kanji.codePointAt(0).toString(16).padStart(5, '0');
@@ -124,6 +132,71 @@ document.getElementById('showButton').addEventListener('click', function() {
         });
 });
 
+// 漢字情報を取得・表示する関数
+function fetchKanjiInfo(kanji) {
+    const apiUrl = `https://sumito.jp/app/japanese-dictionary/search.php?kanji=${encodeURIComponent(kanji)}`;
+    
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            console.log('API Response parsed:', data);
+            
+            const kanjiInfoContainer = document.getElementById('kanjiInfoContainer');
+            const kanjiInfoElement = document.getElementById('kanjiInfo');
+            
+            // データが空または必要な情報が含まれていない場合は非表示
+            if (!data || (!data.radical && !data.on_reading && !data.kun_reading && !data.meaning)) {
+                kanjiInfoContainer.style.display = 'none';
+                return;
+            }
+            
+            // 内容をクリア
+            kanjiInfoElement.innerHTML = '';
+            
+            // 各情報を追加
+            if (data.radical) {
+                appendInfoItem(kanjiInfoElement, '部首', data.radical);
+            }
+            if (data.on_reading) {
+                appendInfoItem(kanjiInfoElement, '音読み', data.on_reading);
+            }
+            if (data.kun_reading) {
+                appendInfoItem(kanjiInfoElement, '訓読み', data.kun_reading);
+            }
+            if (data.meaning) {
+                appendInfoItem(kanjiInfoElement, '意味', data.meaning);
+            }
+            
+            // 表示を強制
+            kanjiInfoContainer.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching kanji info:', error);
+            // エラー時は非表示
+            document.getElementById('kanjiInfoContainer').style.display = 'none';
+        });
+}
+
+// 情報項目を追加する関数
+function appendInfoItem(parent, title, content) {
+    console.log(`Appending: ${title} - ${content}`); // デバッグログ追加
+    
+    const wrapper = document.createElement('div');
+    wrapper.className = 'kanji-info-item';
+    
+    const titleElement = document.createElement('div');
+    titleElement.className = 'kanji-info-title';
+    titleElement.textContent = title;
+    
+    const contentElement = document.createElement('div');
+    contentElement.className = 'kanji-info-content';
+    contentElement.textContent = content;
+    
+    wrapper.appendChild(titleElement);
+    wrapper.appendChild(contentElement);
+    parent.appendChild(wrapper);
+}
+
 document.addEventListener("DOMContentLoaded", function(){
     // 再表示ボタンのクリックイベントを設定
     document.getElementById("refreshButton").addEventListener("click", function(){
@@ -146,7 +219,9 @@ function shareTwitter() {
 
 function showKanjiAnimation(kanji) {
     const feedback = document.getElementById('feedback');
-    feedback.textContent = ''; // 「書き順アニメーション実行中...」のメッセージを削除
+    if (feedback) {
+        feedback.textContent = ''; // 「書き順アニメーション実行中...」のメッセージを削除
+    }
 }
 
 let isPaused = false;
