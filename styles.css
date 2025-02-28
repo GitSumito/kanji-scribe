@@ -11,6 +11,14 @@
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--background-color);
@@ -21,6 +29,7 @@ body {
     margin: 0;
     padding: 1rem 1rem 1rem 1rem;
     min-height: 100vh;
+    min-width: 320px; /* 最小幅を設定 */
 }
 
 .container {
@@ -31,6 +40,9 @@ body {
     text-align: center;
     width: 100%;
     max-width: 640px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 2.5rem 1rem; /* 左右のパディングを調整 */
 }
 
 .input-group {
@@ -252,7 +264,7 @@ svg {
 /* スマートフォン向けの調整 */
 @media (max-width: 480px) {
     .container {
-        padding: 1.5rem 1rem;
+        padding: 1.5rem 0.8rem; /* パディングをさらに調整 */
     }
 
     .input-group {
