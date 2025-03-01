@@ -46,7 +46,7 @@ document.getElementById('showButton').addEventListener('click', function() {
     
     // Unicode を取得してゼロ埋め (5桁の 16進数)
     const codePoint = kanji.codePointAt(0).toString(16).padStart(5, '0');
-    const svgPath = `bin/${codePoint}.svg`;
+    const svgPath = `bin/${codePoint}.svg?v=${new Date().getTime()}`;
     
     fetch(svgPath)
         .then(response => {
