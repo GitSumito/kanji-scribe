@@ -85,30 +85,36 @@ document.getElementById('showButton').addEventListener('click', function() {
                 for (let i = 0; i < sortedPaths.length; i++) {
                     const path = sortedPaths[i];
                     
-                    // 一時停止中の場合、Promise を作成して待機
+                    // 一時停止中の場合、待機
                     while (isPaused) {
-                        await new Promise(resolve => {
-                            currentAnimation = resolve;
-                        });
+                        await new Promise(resolve => { currentAnimation = resolve; });
                     }
-
+                    
                     path.style.visibility = 'visible';
                     const svgPathObject = SVG(path);
                     svgPathObject.fill('none').stroke({ width: 3, color: '#4a90e2' });
                     const length = path.getTotalLength();
                     path.style.strokeDasharray = length;
                     path.style.strokeDashoffset = length;
+                    // 強制 reflow を実施（transition が確実に適用されるように）
+                    path.getBoundingClientRect();
                     const duration = 1500 / speedSlider.value;
+                    
                     await new Promise(resolve => {
                         path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
-                        setTimeout(() => { path.style.strokeDashoffset = '0'; }, 50);
-                        setTimeout(resolve, duration + 100);
+                        // アニメーション開始
+                        path.style.strokeDashoffset = '0';
+                        path.addEventListener('transitionend', function handler(e) {
+                            if (e.propertyName === 'stroke-dashoffset') {
+                                path.removeEventListener('transitionend', handler);
+                                resolve();
+                            }
+                        });
                     });
                 }
+                // すべてのストロークアニメーション完了後の処理
                 setTimeout(() => {
-                    textElements.forEach(text => {
-                        text.style.display = 'block';
-                    });
+                    textElements.forEach(text => { text.style.display = 'block'; });
                     sortedPaths.forEach(path => {
                         path.style.transition = 'all 0.5s ease-in-out';
                         path.style.stroke = '#2c3e50';
